@@ -1,6 +1,6 @@
 # Importando e Gerando JSON no SQL Server
 
-[← Voltar a SQL](https://github.com/joycequoos/SQL/blob/main/README.md)
+[← Voltar a Engenharia de Dados](https://github.com/joycequoos/Data_Enginer/blob/main/README.md)
 
 Explicação passo a passo do script [`01_Importar_Arquivo_JsonSQL.sql`](https://github.com/joycequoos/SQL/blob/main/SQL_Json/01_Importar_Arquivo_JsonSQL.sql), que mostra os dois sentidos da relação entre JSON e tabela no SQL Server: ler um arquivo `.json` do disco e transformá-lo em linhas de tabela, e o caminho inverso — transformar uma tabela em JSON.
 
