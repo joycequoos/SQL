@@ -39,10 +39,10 @@ Coleção de scripts SQL Server prontos para uso no dia a dia: criação e alter
 
 | Script | Conceito | O que faz |
 | --- | --- | --- |
-| [03_Consulta_Conteudos_Procedures.sql](https://github.com/joycequoos/SQL/blob/main/Procedures/03_Consulta_Conteudos_Procedures.sql) | Metadados do banco | Consulta `sys.sql_modules` para encontrar o código-fonte de procedures que contenham um determinado trecho de texto (ex.: `qtd_dias`) — útil para localizar onde uma regra de negócio está implementada. Também mostra `sp_helptext`, outra forma de ver o código de uma procedure |
-| [05_Create_Procedure.sql](https://github.com/joycequoos/SQL/blob/main/Procedures/05_Create_Procedure.sql) | Procedure com `TRY/CATCH` | Cria a procedure `spcb_valores_elevados`, que recebe dezenas de parâmetros (incluindo tabelas `readonly`) e gera alertas quando a movimentação financeira de um cliente ultrapassa determinados parâmetros, com regras diferentes para pessoa física e jurídica |
-| [07_Procedure_Cursor.txt](https://github.com/joycequoos/SQL/blob/main/Procedures/07_Procedure_Cursor.txt) | `CURSOR` aninhado | Exemplo mais avançado: a procedure `spgr_varredura` usa múltiplos cursores aninhados (produtos → clientes → enquadramentos) para percorrer registros um a um e executar dinamicamente outras procedures (`sp_sqlexec`) — típico de rotinas de varredura/auditoria que processam grandes volumes de forma sequencial |
-| [10_Procedure_Average_Calculation.sql](https://github.com/joycequoos/SQL/blob/main/Procedures/10_Procedure_Average_Calculation.sql) | Cálculo de média e geração de alerta | A procedure `spcc_aumento_vol` calcula a média mensal de créditos de um cliente em um período e gera um alerta quando a movimentação atual ultrapassa essa média em um percentual definido por parâmetro |
+| [01_Consulta_Conteudos_Procedures.sql](https://github.com/joycequoos/SQL/blob/main/Procedures/03_Consulta_Conteudos_Procedures.sql) | Metadados do banco | Consulta `sys.sql_modules` para encontrar o código-fonte de procedures que contenham um determinado trecho de texto (ex.: `qtd_dias`) — útil para localizar onde uma regra de negócio está implementada. Também mostra `sp_helptext`, outra forma de ver o código de uma procedure |
+| [02_Create_Procedure.sql](https://github.com/joycequoos/SQL/blob/main/Procedures/05_Create_Procedure.sql) | Procedure com `TRY/CATCH` | Cria a procedure `spcb_valores_elevados`, que recebe dezenas de parâmetros (incluindo tabelas `readonly`) e gera alertas quando a movimentação financeira de um cliente ultrapassa determinados parâmetros, com regras diferentes para pessoa física e jurídica |
+| [03_Procedure_Cursor.txt](https://github.com/joycequoos/SQL/blob/main/Procedures/07_Procedure_Cursor.txt) | `CURSOR` aninhado | Exemplo mais avançado: a procedure `spgr_varredura` usa múltiplos cursores aninhados (produtos → clientes → enquadramentos) para percorrer registros um a um e executar dinamicamente outras procedures (`sp_sqlexec`) — típico de rotinas de varredura/auditoria que processam grandes volumes de forma sequencial |
+| [04_Procedure_Average_Calculation.sql](https://github.com/joycequoos/SQL/blob/main/Procedures/10_Procedure_Average_Calculation.sql) | Cálculo de média e geração de alerta | A procedure `spcc_aumento_vol` calcula a média mensal de créditos de um cliente em um período e gera um alerta quando a movimentação atual ultrapassa essa média em um percentual definido por parâmetro |
 
 > **Conceito-chave:** todas as procedures usam o padrão `BEGIN TRY ... END TRY / BEGIN CATCH ... END CATCH`, chamando uma procedure central de tratamento de erro (`spgr_tratar_erro`) — uma boa prática para centralizar o log de falhas em vez de duplicar essa lógica em cada rotina.
 
@@ -50,8 +50,8 @@ Coleção de scripts SQL Server prontos para uso no dia a dia: criação e alter
 
 | Script | Conceito | O que faz |
 | --- | --- | --- |
-| [06_Functions_Replace.sql](https://github.com/joycequoos/SQL/blob/main/Functions/06_Functions_Replace.sql) | `REPLACE()` encadeado | Remove pontos, hífens e barras de uma coluna de documentos, encadeando três `REPLACE()` — útil para padronizar CPF/CNPJ armazenados com máscara |
-| [09_Function_DiaUtil.sql](https://github.com/joycequoos/SQL/blob/main/Functions/09_Function_DiaUtil.sql) | `FUNCTION` com laço `WHILE` | A function `fncDia_Util_Anterior` recebe uma data e uma quantidade de dias úteis, e retorna a data resultante subtraindo dias, pulando finais de semana e feriados cadastrados em `dbo.tgr_feriados` |
+| [01_Functions_Replace.sql](https://github.com/joycequoos/SQL/blob/main/Functions/06_Functions_Replace.sql) | `REPLACE()` encadeado | Remove pontos, hífens e barras de uma coluna de documentos, encadeando três `REPLACE()` — útil para padronizar CPF/CNPJ armazenados com máscara |
+| [02_Function_DiaUtil.sql](https://github.com/joycequoos/SQL/blob/main/Functions/09_Function_DiaUtil.sql) | `FUNCTION` com laço `WHILE` | A function `fncDia_Util_Anterior` recebe uma data e uma quantidade de dias úteis, e retorna a data resultante subtraindo dias, pulando finais de semana e feriados cadastrados em `dbo.tgr_feriados` |
 
 > **Conceito-chave:** diferente de uma procedure, uma `FUNCTION` sempre retorna um valor e pode ser usada diretamente dentro de outras consultas (ex.: `SELECT dbo.fncDia_Util_Anterior(...)`).
 
@@ -68,7 +68,7 @@ Coleção de scripts SQL Server prontos para uso no dia a dia: criação e alter
 | Script | Conceito | O que faz |
 | --- | --- | --- |
 | [01_Importar_Arquivo_JsonSQL.sql](https://github.com/joycequoos/SQL/blob/main/SQL_Json/01_Importar_Arquivo_JsonSQL.sql) | `OPENROWSET` + `OPENJSON` | Lê um arquivo `.json` do disco para uma variável (`OPENROWSET ... BULK`), converte esse JSON em linhas de tabela com `OPENJSON ... WITH (...)`, e no sentido inverso, transforma uma tabela em JSON usando `FOR JSON AUTO` |
-| [03_Importar_Json_Git.sql](https://github.com/joycequoos/SQL/blob/main/SQL_Json/03_Importar_Json_Git.sql) | `OPENJSON` simples | Mesmo padrão de leitura de arquivo JSON, aplicado a um JSON mais simples (lista de logins), extraindo apenas a coluna `login` |
+| [02_Importar_Json_Git.sql](https://github.com/joycequoos/SQL/blob/main/SQL_Json/03_Importar_Json_Git.sql) | `OPENJSON` simples | Mesmo padrão de leitura de arquivo JSON, aplicado a um JSON mais simples (lista de logins), extraindo apenas a coluna `login` |
 
 > **Conceito-chave:** o SQL Server nativo (desde a versão 2016) permite ler e gerar JSON sem precisar de uma ferramenta externa — útil para integrações onde o dado de origem ou destino é um arquivo JSON.
 
@@ -78,7 +78,7 @@ Coleção de scripts SQL Server prontos para uso no dia a dia: criação e alter
 | --- | --- | --- |
 | [01_Convert_Substring.sql](https://github.com/joycequoos/SQL/blob/main/01_Convert_Substring.sql) | `SUBSTRING` + `OPENQUERY` | Procedure completa de carga (`spcr_operacao_corretora`): busca dados de um servidor vinculado (`OPENQUERY`) para tabelas temporárias, converte datas em formato texto para `smalldatetime` usando `SUBSTRING`, trata datas fora do intervalo suportado, e depois insere/atualiza as tabelas definitivas |
 | [02_Convert_Datas.sql](https://github.com/joycequoos/SQL/blob/main/02_Convert_Datas.sql) | `CONVERT()` com diferentes estilos | Compara os principais estilos de formatação de data do `CONVERT()` (103, 113, 22, 111, 130, 109, 120) e mostra como converter datas em texto (`DD/MM/AAAA`, `DDMMAAAA`, `AAAAMMDD`) para `smalldatetime` usando `SUBSTRING` |
-| [04_Tempo_Entre_DatasHoras.sql](https://github.com/joycequoos/SQL/blob/main/04_Tempo_Entre_DatasHoras.sql) | `DATEDIFF()` | Calcula a diferença entre duas datas em dias, horas, minutos e segundos, usando `DATEDIFF` com diferentes unidades de tempo |
+| [03_Tempo_Entre_DatasHoras.sql](https://github.com/joycequoos/SQL/blob/main/04_Tempo_Entre_DatasHoras.sql) | `DATEDIFF()` | Calcula a diferença entre duas datas em dias, horas, minutos e segundos, usando `DATEDIFF` com diferentes unidades de tempo |
 
 > **Conceito-chave:** quando uma data vem como texto num formato não padrão (ex.: `14042021`), `SUBSTRING` é usado para "fatiar" o ano, mês e dia nas posições certas antes de converter para um tipo de data real.
 
@@ -86,7 +86,7 @@ Coleção de scripts SQL Server prontos para uso no dia a dia: criação e alter
 
 | Script | Conceito | O que faz |
 | --- | --- | --- |
-| [03_Processos_Ativos.sql](https://github.com/joycequoos/SQL/blob/main/03_Processos_Ativos.sql) | `sys.sysprocesses` | Lista os processos ativos no SQL Server (`runnable` ou `suspended`), mostrando computador, usuário, status, se está bloqueado por outro processo e o aplicativo de origem — útil para identificar travamentos e consultas presas |
+| [01_Processos_Ativos.sql](https://github.com/joycequoos/SQL/blob/main/03_Processos_Ativos.sql) | `sys.sysprocesses` | Lista os processos ativos no SQL Server (`runnable` ou `suspended`), mostrando computador, usuário, status, se está bloqueado por outro processo e o aplicativo de origem — útil para identificar travamentos e consultas presas |
 
 ## Próximos passos
 
